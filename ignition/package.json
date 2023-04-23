@@ -1,0 +1,17 @@
+{
+  "name": "ignition",
+  "version": "1.0.0",
+  "description": "This is Namaste JS ",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "react - igniting the app"
+  ],
+  "author": "Saurabh Nakade",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
