@@ -1,4 +1,4 @@
-import resList from "../../public/data";
+import resList from "../utils/data";
 import RestaurantCard from "./RestaurantCard";
 
 const Body = () => {
