@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 // import resList from "../utils/data";
 import RestaurantCard from "./RestaurantCard";
+import { Link } from "react-router-dom";
 
 function filterData(searchText, restaurants) {
     const filterData = restaurants.filter((restaurant) =>
@@ -99,10 +100,11 @@ const Body = () => {
                 {filteredRestaurants.length===0 ? (<h1>No restaurants for that filter</h1>):(<></>)}
                 {filteredRestaurants.map((res) => {
                     return (
+                        <Link key={res?.data.id} to={`/restaurants/${res?.data.id}`}>
                         <RestaurantCard
-                            key={res?.data.id}
                             resData={res?.data}
                         />
+                        </Link>
                     );
                 })}
             </div>
