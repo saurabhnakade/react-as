@@ -1,23 +1,11 @@
-import { useEffect, useState } from "react";
-import { redirect, useParams } from "react-router-dom";
-import { CDN_URL, RES_URL } from "../utils/constants";
+import { useParams } from "react-router-dom";
+import { CDN_URL } from "../utils/constants";
+import useRestaurant from "../utils/useRestaurant";
 
 const RestaurantMenu = () => {
     const { id } = useParams();
 
-    const [resData, setResData] = useState({});
-
-    useEffect(() => {
-        getRestaurantInfo();
-    }, []);
-
-    async function getRestaurantInfo() {
-        const data = await fetch(
-            `${RES_URL}${id}`
-        );
-        const json = await data.json();
-        setResData(json?.data?.cards?.[0]?.card?.card?.info);
-    }
+    const resData=useRestaurant(id);
 
     return (
         <div>
@@ -26,7 +14,7 @@ const RestaurantMenu = () => {
             {resData?.cuisines?.map((cuisine) => (
                 <h2 key={Math.floor(Math.random()*100)+27*Math.floor(Math.random()*100)}>{cuisine}</h2>
             ))}
-            <img className="individual-img" src={`${CDN_URL}${resData?.cloudinaryImageId}`}/>
+            <img className="individual-img" alt="restaurant-image" src={`${CDN_URL}${resData?.cloudinaryImageId}`}/>
         </div>
     );
 };
