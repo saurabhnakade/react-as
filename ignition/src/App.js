@@ -1,62 +1,76 @@
-import React, { lazy , Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
-import {createBrowserRouter , Outlet, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import About from "./components/About";
 import Error from "./components/Error";
-import Contact from "./components/Contact"
+import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
 import ProfileClass from "./components/ProfileClass";
-
+import UserContext from "./utils/UserContext";
 
 // import Instamart from "./components/Instamart";
-const Instamart=lazy(()=>import("./components/Instamart"))
-
+const Instamart = lazy(() => import("./components/Instamart"));
 
 const AppLayout = () => {
+    const [user, setUser] = useState({
+        name: "Saurabh Nakade",
+        email: "saurabh.nakade23@gmail.com",
+    });
+
     return (
-        <div className="app">
-            <Header />
-            <Outlet/>
-        </div>
+        <UserContext.Provider value={
+            {user:user,setUser:setUser}
+        }>
+            <div className="app">
+                <Header />
+                <Outlet />
+            </div>
+        </UserContext.Provider>
     );
 };
 
-const appRouter=createBrowserRouter([
+const appRouter = createBrowserRouter([
     {
-        path:"/",
-        element:<AppLayout/>,
-        errorElement:<Error/>,
-        children:[
+        path: "/",
+        element: <AppLayout />,
+        errorElement: <Error />,
+        children: [
             {
-                path:"/",
-                element:<Body/>,
+                path: "/",
+                element: <Body />,
             },
             {
-                path:"/about",
-                element:<About/>,
-                children:[{
-                    path:"profile",
-                    element:<ProfileClass name="Saurabh"/>
-                }]
+                path: "/about",
+                element: <About />,
+                children: [
+                    {
+                        path: "profile",
+                        element: <ProfileClass name="Saurabh" />,
+                    },
+                ],
             },
             {
-                path:"/contact",
-                element:<Contact/>
+                path: "/contact",
+                element: <Contact />,
             },
             {
-                path:"/restaurants/:id",
-                element:<RestaurantMenu/>
-            }
-            ,{
-                path:"/instamart",
-                element:<Suspense fallback={<h1>Shimmer is Loading</h1>}><Instamart/></Suspense>
-            }
-        ]
+                path: "/restaurants/:id",
+                element: <RestaurantMenu />,
+            },
+            {
+                path: "/instamart",
+                element: (
+                    <Suspense fallback={<h1>Shimmer is Loading</h1>}>
+                        <Instamart />
+                    </Suspense>
+                ),
+            },
+        ],
     },
-])
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<RouterProvider router={appRouter }/>);
+root.render(<RouterProvider router={appRouter} />);

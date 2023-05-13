@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState , useContext } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnline from "../utils/useOnline";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const isOnline = useOnline();
+
+    const user=useContext(UserContext)
 
     return (
         <div className="p-5">
@@ -30,6 +33,7 @@ const Header = () => {
                     <li  className="px-2">Cart</li>
                 </ul>
             </div>
+            <h1 className="py-11 font-bold text-red-900">{user.user.name}</h1>
             {isOnline ? <h1 className="py-11">✅</h1> : <h1 className="py-11">🔴</h1>}
             {!isLoggedIn ? (
                 <button className="pr-10" onClick={() => setIsLoggedIn(true)}>Login</button>

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 // import resList from "../utils/data";
 import RestaurantCard from "./RestaurantCard";
 import { Link } from "react-router-dom";
 import useRestaurantList from "../utils/useRestaurantList";
 import useOnline from "../utils/useOnline";
 import { filterData } from "../utils/helper";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
     const [searchText, setSearchText] = useState("");
@@ -14,6 +15,8 @@ const Body = () => {
         setRestaurants,
         setFilteredRestaurants,
     ] = useRestaurantList();
+
+    const {user,setUser}=useContext(UserContext);
 
     return restaurants.length === 0 ? (
         <h1 className="text-center font-bold text-3xl">Shimmer UI loading</h1>
@@ -55,6 +58,14 @@ const Body = () => {
                         >
                             Search
                         </button>
+                        <input
+                            className="mr-5 rounded-lg py-1 px-4"
+                            type="text"
+                            value={user.name}
+                            onChange={(e) => {
+                                setUser({...user,name:e.target.value});
+                            }}
+                        />
                     </form>
                 </div>
             </div>
