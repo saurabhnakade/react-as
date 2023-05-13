@@ -8,51 +8,61 @@ import { filterData } from "../utils/helper";
 
 const Body = () => {
     const [searchText, setSearchText] = useState("");
-    const [restaurants,filteredRestaurants,setRestaurants,setFilteredRestaurants]=useRestaurantList();
-
-    // const isOnline=useOnline();
-
-    // if(!isOnline){
-    //     return <h1>🔴 Offline</h1>
-    // }
+    const [
+        restaurants,
+        filteredRestaurants,
+        setRestaurants,
+        setFilteredRestaurants,
+    ] = useRestaurantList();
 
     return restaurants.length === 0 ? (
-        <h1>Shimmer UI loading</h1>
+        <h1 className="text-center font-bold text-3xl">Shimmer UI loading</h1>
     ) : (
-        <div className="body">
-            <div className="filter">
-                <button
-                    className="filter-btn"
-                    onClick={() => {
-                        filteredRes = restaurants.filter(
-                            (res) => res.data.avgRating > 4
-                        );
-                        setRestaurants(filteredRes);
-                    }}
-                >
-                    Top Rated
-                </button>
+        <div className="p-5 m-5 bg-pink-50 rounded-lg shadow-lg justify-between">
+            <div className="flex items-center mb-6 justify-between">
+                <div>
+                    <button
+                        className="hover:bg-purple-300 bg-purple-200 p-2 rounded-lg mr-3"
+                        onClick={() => {
+                            filteredRes = restaurants.filter(
+                                (res) => res.data.avgRating > 4
+                            );
+                            setRestaurants(filteredRes);
+                        }}
+                    >
+                        Top Rated
+                    </button>
+                </div>
+                <div className="filterName">
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                                const data = filterData(
+                                    searchText,
+                                    restaurants
+                                );
+                                setFilteredRestaurants(data);
+                            }}>
+                        <input
+                            className="mr-5 rounded-lg py-1 px-4"
+                            type="text"
+                            value={searchText}
+                            onChange={(e) => {
+                                setSearchText(e.target.value);
+                            }}
+                        />
+                        <button
+                            className="hover:bg-purple-300 bg-purple-200 p-2 rounded-lg mr-3"
+                        >
+                            Search
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div className="filterName">
-                <input
-                    type="text"
-                    value={searchText}
-                    onChange={(e) => {
-                        setSearchText(e.target.value);
-                    }}
-                />
-                <button
-                    onClick={() => {
-                        const data = filterData(searchText, restaurants);
-                        setFilteredRestaurants(data);
-                    }}
-                >
-                    Search
-                </button>
-            </div>
-            <div className="res-container">
+            <div className="flex justify-center items-center flex-wrap">
                 {filteredRestaurants.length === 0 ? (
-                    <h1>No restaurants for that filter</h1>
+                    <h1 className="text-center">
+                        No restaurants for that filter
+                    </h1>
                 ) : (
                     <></>
                 )}

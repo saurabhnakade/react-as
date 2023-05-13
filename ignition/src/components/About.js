@@ -2,7 +2,7 @@ import { Component } from "react"
 import { Outlet } from "react-router-dom"
 
 const AboutFunc=()=>{
-    return <><div>About</div><Outlet/></>
+    return <><div></div><Outlet/></>
 }
 
 class About extends Component{
@@ -20,7 +20,9 @@ class About extends Component{
 
     render(){
         console.log("Parent-render");
-        return <><div>About</div><Outlet/></>
+        return <><div><div>
+        <h1 className="text-center font-bold text-3xl">About</h1>
+    </div></div><Outlet/></>
     }
 }
 
