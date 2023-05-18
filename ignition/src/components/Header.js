@@ -3,12 +3,15 @@ import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnline from "../utils/useOnline";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const isOnline = useOnline();
 
     const user=useContext(UserContext)
+
+    const cartItems=useSelector(store=>store.cart.items);
 
     return (
         <div className="p-5">
@@ -30,7 +33,9 @@ const Header = () => {
                     <Link to="/instamart" style={{ textDecoration: "none" }}>
                         <li className="px-2">Instamart</li>
                     </Link>
-                    <li  className="px-2">Cart</li>
+                    <Link to="/cart" style={{ textDecoration: "none" }}>
+                        <li  className="px-2">Cart - {cartItems.length}</li>
+                    </Link>
                 </ul>
             </div>
             <h1 className="py-11 font-bold text-red-900">{user.user.name}</h1>
