@@ -3,15 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeMenu } from '../utils/navSlice';
 import { YOUTUBE_SEARCH_RESULTS } from '../utils/constants';
 import VideoCardSearchPage from './VideoCardSearchPage';
+import { useSearchParams } from 'react-router-dom';
 
 const SearchResultPage = () => {
     const dispatch=useDispatch();
     const isMenuOpen=useSelector(store=>store.nav.isMenuOpen);
 
+    const [params,setParams]=useSearchParams();
+
     const [videos,setVideos]=useState([]);
 
     const getSearchVideoResults=async()=>{
-        const data=await fetch(YOUTUBE_SEARCH_RESULTS("iphone 14"))
+        const data=await fetch(YOUTUBE_SEARCH_RESULTS(params.get("search_query")))
         const json=await data.json();
         setVideos(json.items)
     }
@@ -19,7 +22,7 @@ const SearchResultPage = () => {
     useEffect(() => {
         dispatch(closeMenu());
         getSearchVideoResults();
-    }, []);
+    }, [params]);
 
     let tClass="col-span-11";
     if(!isMenuOpen){

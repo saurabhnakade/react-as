@@ -7,35 +7,39 @@ import {RouterProvider, createBrowserRouter} from 'react-router-dom';
 import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
 import SearchResultPage from "./components/SearchResultPage";
+import FullPage from "./components/FullPage";
 
 const appRouter=createBrowserRouter([
   {
     path:"/",
-    element:<Body/>,
+    element:<FullPage/>,
     children:[
       {
         path:"/",
-        element:<MainContainer/>
-      },
-      {
-        path:"/watch",
-        element:<WatchPage/>
-      },
-      {
-        path:"/search",
-        element:<SearchResultPage/>
-      }
-    ]
+        element:<Body/>,
+        children:[
+        {
+          path:"/",
+          element:<MainContainer/>
+        },
+        {
+          path:"/watch",
+          element:<WatchPage/>
+        },
+        {
+          path:"/results",
+          element:<SearchResultPage/>
+        }
+      ]
+    }
+  ]
   }
 ]);
 
 const App = () => {
     return (
       <Provider store={store}>
-        <div>
-          <Head/>
-          <RouterProvider router={appRouter}/>
-        </div>
+        <RouterProvider router={appRouter} />
       </Provider>
     );
  

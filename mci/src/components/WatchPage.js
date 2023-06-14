@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeMenu } from "../utils/navSlice";
 import { useSearchParams } from "react-router-dom";
 import { YOUTUBE_VIDEOS_API, YOUTUBE_VIDEO_COMMENTS } from "../utils/constants";
 import VideoCardWatchPage from "./VideoCardWatchPage";
+import VideoCard from "./VideoCard";
 
 const WatchPage = () => {
     const dispatch = useDispatch();
     const [params, setParams] = useSearchParams();
     const [data, setData] = useState([]);
     const [comments,setComments]=useState([]);
+
+    const isMenuOpen=useSelector(store=>store.nav.isMenuOpen)
 
     const getVideos = async () => {
         const tdata = await fetch(YOUTUBE_VIDEOS_API(6));
@@ -57,9 +60,13 @@ const WatchPage = () => {
                 </div>
             </div>
             <div>
-                {data.map((item) => (
-                    <VideoCardWatchPage key={item.id} info={item} size={"h-66 w-110"} />
-                ))}
+                {data.map((item) => {
+                    if(isMenuOpen){
+                        return <VideoCard key={item.id} info={item}/>
+                    }else{
+                    return <VideoCardWatchPage key={item.id} info={item}/>
+                    }
+                })}
             </div>
         </div>
     );

@@ -54,11 +54,13 @@ const Head = () => {
                     alt="menu"
                     src="https://www.citypng.com/public/uploads/preview/hd-black-menu-burger-icon-transparent-background-31634946207uno2yrzogi.png"
                 />
+                <Link to={"/"}>
                 <img
                     className="h-16"
                     alt="yotube-logo"
                     src="https://lh3.googleusercontent.com/3zkP2SYe7yYoKKe47bsNe44yTgb4Ukh__rBbwXwgkjNRe4PykGG409ozBxzxkrubV7zHKjfxq6y9ShogWtMBMPyB3jiNps91LoNH8A=s500"
                 />
+                </Link>
             </div>
             <div className="col-span-10 pl-44 relative">
                 <div className="flex items-center w-full mt-3">
@@ -70,9 +72,11 @@ const Head = () => {
                         onFocus={()=>setShowSuggestions(true)}
                         onBlur={()=>setShowSuggestions(false)}
                     />
-                    <button className="border border-gray-400 p-2 rounded-r-full">
-                        Search
-                    </button>
+                    <Link to={"/results?search_query="+searchQuery}>
+                        <button className="border border-gray-400 p-2 rounded-r-full">
+                            Search
+                        </button>
+                    </Link>
                 </div>
                 {showSuggestions && searchResults.length!==0 && <div className="absolute z-10 bg-white mt-1 py-2 px-5 w-[40rem] rounded-lg drop-shadow-2xl">
                     <ul className="">
