@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/navSlice";
-import { YOUTUBE_SEARCH_RESULTS, YOUTUBE_SUGGESTION_API } from "../utils/constants";
+import {  YOUTUBE_SUGGESTION_API } from "../utils/constants";
+import { Link } from "react-router-dom";
+import { cacheAdd } from "../utils/cacheSeachSlice";
 
 const Head = () => {
     const dispatch = useDispatch();
+    const cache=useSelector(store=>store.cache)
 
     const [searchQuery,setSearchQuery]=useState("");
-    const [searchResults,setSeatchResults]=useState([]);
+    const [searchResults,setSearchResults]=useState([]);
+    const [showSuggestions,setShowSuggestions]=useState(false);
 
     const getSearchSuggestions=async()=>{
         const data =await fetch(YOUTUBE_SUGGESTION_API+searchQuery);
         const json =await data.json();
-        setSeatchResults(json[1]);
-    }
+        setSearchResults(json[1]);
 
-    const getSearchVideoResults=async()=>{
-        const data=await fetch(YOUTUBE_SEARCH_RESULTS("iphone 14"))
-        const json=await data.json();
-        console.log(json);
+        dispatch(cacheAdd({
+            [searchQuery]:json[1]
+        }))
     }
-
+   
     useEffect(()=>{
         // make an api call after every keyPress
         // but if the difference between two api calls is <200ms - decline the api call
-        const timer=setTimeout(getSearchSuggestions,200)
-
-        getSearchVideoResults();
+        const timer=setTimeout(()=>{
+            if(cache[searchQuery]){
+                setSearchResults(cache[searchQuery]);
+            }else{
+                getSearchSuggestions();
+            }
+        },200)
 
         // every time component unmounts this gets called
         return ()=>{
@@ -61,15 +67,17 @@ const Head = () => {
                         type="text"
                         value={searchQuery}
                         onChange={(e)=>setSearchQuery(e.target.value)}
+                        onFocus={()=>setShowSuggestions(true)}
+                        onBlur={()=>setShowSuggestions(false)}
                     />
                     <button className="border border-gray-400 p-2 rounded-r-full">
                         Search
                     </button>
                 </div>
-                {searchResults.length!==0 &&<div className="absolute z-10 bg-white mt-1 py-2 px-5 w-[40rem] rounded-lg drop-shadow-2xl">
+                {showSuggestions && searchResults.length!==0 && <div className="absolute z-10 bg-white mt-1 py-2 px-5 w-[40rem] rounded-lg drop-shadow-2xl">
                     <ul className="">
                         {searchResults.map((item,idx)=><li className="py-2 px-2 hover:bg-gray-100" key={idx}>
-                            🔍 {item}
+                        🔍 {item}
                         </li>)}
                     </ul>
                 </div>}
