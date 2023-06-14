@@ -7,8 +7,8 @@ const VideoCard = ({info}) => {
 
   return (
     <Link to={"/watch?v="+info.id}>
-    <div className='overflow-hidden h-66 p-2 m-2 w-80 shadow-lg'>
-        <img alt="thumbnail" className='h-60 rounded-lg' src={thumbnails?.high?.url}/>
+    <div className='overflow-hidden h-[26rem] p-2 m-2 w-80 shadow-lg'>
+        <img alt="thumbnail" className='object-cover rounded-lg' src={thumbnails?.high?.url}/>
         <ul>
           <li className='font-bold py-2'>{title}</li>
           <li>{channelTitle}</li>

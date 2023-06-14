@@ -5,14 +5,15 @@ import { useSearchParams } from "react-router-dom";
 import { YOUTUBE_VIDEOS_API, YOUTUBE_VIDEO_COMMENTS } from "../utils/constants";
 import VideoCardWatchPage from "./VideoCardWatchPage";
 import VideoCard from "./VideoCard";
+import Comment from "./Comment";
 
 const WatchPage = () => {
     const dispatch = useDispatch();
     const [params, setParams] = useSearchParams();
     const [data, setData] = useState([]);
-    const [comments,setComments]=useState([]);
+    const [comments, setComments] = useState([]);
 
-    const isMenuOpen=useSelector(store=>store.nav.isMenuOpen)
+    const isMenuOpen = useSelector((store) => store.nav.isMenuOpen);
 
     const getVideos = async () => {
         const tdata = await fetch(YOUTUBE_VIDEOS_API(6));
@@ -21,14 +22,14 @@ const WatchPage = () => {
         setData(jsonData.items);
     };
 
-    const getVideoComments=async()=>{
-        const tComments=await fetch(YOUTUBE_VIDEO_COMMENTS(params.get("v")));
-        const json=await tComments.json();
+    const getVideoComments = async () => {
+        const tComments = await fetch(YOUTUBE_VIDEO_COMMENTS(params.get("v")));
+        const json = await tComments.json();
 
         console.log(json.items);
-        
+
         setComments(json.items);
-    }
+    };
 
     useEffect(() => {
         dispatch(closeMenu());
@@ -55,16 +56,19 @@ const WatchPage = () => {
                 ></iframe>
                 <div>
                     <ul className="ml-12 mt-14">
-                    {comments.map(({snippet})=><li className="px-3 py-8 text-lg">{snippet.topLevelComment.snippet.textOriginal}</li>)}
+                        {comments.map(({ snippet }, idx) => {
+                            if (idx < 7)
+                                return <Comment snippet={snippet} idx={idx} />;
+                        })}
                     </ul>
                 </div>
             </div>
             <div>
                 {data.map((item) => {
-                    if(isMenuOpen){
-                        return <VideoCard key={item.id} info={item}/>
-                    }else{
-                    return <VideoCardWatchPage key={item.id} info={item}/>
+                    if (isMenuOpen) {
+                        return <VideoCard key={item.id} info={item} />;
+                    } else {
+                        return <VideoCardWatchPage key={item.id} info={item} />;
                     }
                 })}
             </div>
