@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "./components/Head";
 import Body from "./components/Body";
 import { Provider } from "react-redux"
 import store from "./utils/store";
@@ -8,6 +7,7 @@ import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
 import SearchResultPage from "./components/SearchResultPage";
 import FullPage from "./components/FullPage";
+import LiveChatPage from "./components/LiveChatPage";
 
 const appRouter=createBrowserRouter([
   {
@@ -29,6 +29,10 @@ const appRouter=createBrowserRouter([
         {
           path:"/results",
           element:<SearchResultPage/>
+        },
+        {
+          path:"/live",
+          element:<LiveChatPage/>
         }
       ]
     }
