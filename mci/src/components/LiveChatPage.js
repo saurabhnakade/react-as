@@ -6,7 +6,6 @@ import { generate, makeMessage } from "../utils/helper";
 
 const LiveChatPage = () => {
     const dispatch=useDispatch();
-    const [name,setName]=useState("");
     const [msg,setMsg]=useState("");
 
     const messages=useSelector(store=>store.chat.messages);
@@ -25,13 +24,12 @@ const LiveChatPage = () => {
 
     const messageAdderHelper=(e)=>{
         e.preventDefault();
-        
+
         dispatch(addMessage({
-            name:name,
+            name:'Saurabh',
             message:msg
         }))
 
-        setName("");
         setMsg("");
     }
 
@@ -41,9 +39,8 @@ const LiveChatPage = () => {
                 {messages.map((msg,idx)=><LiveChatMessage key={idx*Math.random()*7} name={msg.name} message={msg.message}/>)}
             </div>
             <div>
-                <form onSubmit={messageAdderHelper}>
-            <input placeHolder="Name" value={name} onChange={(e)=>setName(e.target.value)} className="ml-2 p-2 mt-3 w-[20rem] border border-black" type="text"/>
-            <input placeHolder="Message" value={msg} onChange={(e)=>setMsg(e.target.value)} className="ml-2 p-2 mt-3 w-[20rem] border border-black" type="text"/>
+            <form onSubmit={messageAdderHelper}>
+                <input placeHolder="Message" value={msg} onChange={(e)=>setMsg(e.target.value)} className="ml-2 p-2 mt-3 w-[35rem] border border-black" type="text"/>
             <button type="submit" className="bg-gray-300 p-2 ml-2">Add</button>
             </form>
             </div>

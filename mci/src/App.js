@@ -8,6 +8,7 @@ import WatchPage from "./components/WatchPage";
 import SearchResultPage from "./components/SearchResultPage";
 import FullPage from "./components/FullPage";
 import LiveChatPage from "./components/LiveChatPage";
+import Test from "./components/Test";
 
 const appRouter=createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const appRouter=createBrowserRouter([
         {
           path:"/live",
           element:<LiveChatPage/>
+        },
+        {
+          path:"/test",
+          element:<Test/>
         }
       ]
     }
