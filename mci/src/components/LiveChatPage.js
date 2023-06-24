@@ -35,7 +35,7 @@ const LiveChatPage = () => {
 
     return (
         <div className="col-span-11 flex flex-col items-center justify-center">
-            <div className="h-[50rem] w-[40rem] bg-gray-200 mt-6 border border-gray-500 rounded-lg p-5 overflow-y-scroll flex flex-col flex-col-reverse">
+            <div className="h-[46rem] w-[40rem] bg-gray-200 mt-6 border border-gray-500 rounded-lg p-5 overflow-y-scroll flex flex-col flex-col-reverse">
                 {messages.map((msg,idx)=><LiveChatMessage key={idx*Math.random()*7} name={msg.name} message={msg.message}/>)}
             </div>
             <div>
